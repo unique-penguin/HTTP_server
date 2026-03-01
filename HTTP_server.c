@@ -2,6 +2,7 @@
 // perror()
 // printf()
 #include <sys/socket.h>
+// socklen_t
 // socket()
 // bind()
 // listen()
@@ -78,9 +79,12 @@ int main(int argc, char const *argv[])
         printf("Client connected: %s\n", inet_ntoa(client_socket_address.sin_addr));
         if(send(client_socket_fd, http_header, sizeof(http_header), 0) < 0){
             perror("\x1b[1;33;41;mSTDERR send()\x1b[0m");
-            printf("HTTP TO BE SENT:\n%s", http_header);
         }
-        close(client_socket_fd);
+        
+        if(close(client_socket_fd) == -1){
+            perror("\x1b[1;33;41;mSTDERR close()\x1b[0m");
+            return -1;
+        }
     }
 
     return 0;

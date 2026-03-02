@@ -17,7 +17,9 @@
 #include <unistd.h>
 // close()
 
-#define PORT 8080
+// if PORT <= 1024 sudo is needed, because those are previledge ports
+// if PORT > 1024 there is no need for sudo
+#define PORT 80
 #define LOCAL_IP "192.168.1.153"
 
 int main(int argc, char const *argv[])
@@ -29,13 +31,13 @@ int main(int argc, char const *argv[])
         return -1;
     }
 
-    char content[1024];
+    char content[4096];
     size_t content_len = fread(content, 1, sizeof(content)-1, hmtl_file);
     content[content_len] = '\0';
 
     char http_header[8192] = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n";
     strcat(http_header, content);
-    strcat(http_header, "\r\n\r\n");
+    strcat(http_header, "\r\n");
     printf("HTTP TO BE SENT:\n%s", http_header);
 
     // create a socket for the server

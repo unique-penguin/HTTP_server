@@ -1,2 +1,5 @@
 #executable
 HTTP_server
+
+#html page
+*.html
